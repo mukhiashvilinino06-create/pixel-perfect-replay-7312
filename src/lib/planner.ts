@@ -134,7 +134,7 @@ export function generatePlan(input: PlanInput): Plan {
     while (pool.length) {
       const idx = pool.findIndex((d) => d.hours <= Math.max(hoursLeft, added === 0 ? 3 : 0));
       if (idx === -1) break;
-      if (added === 0 && hoursLeft < 1.5 && !(isFirst && pool[idx].hub)) break;
+      if (added === 0 && hoursLeft < 1.5 && !(isFirst && pool[idx]!.hub)) break;
       const d = pool.splice(idx, 1)[0]!;
       items.push({ type: "stop", destId: d.id, reasons: d.styles.filter((s) => input.styles.includes(s)) });
       hoursLeft -= d.hours;
