@@ -1,4 +1,8 @@
-import svaneti from "@/assets/svaneti.jpg";
+import mestiaImg from "@/assets/mestia.jpg.asset.json";
+import ushguliImg from "@/assets/ushguli.jpg.asset.json";
+import hatsvaliImg from "@/assets/hatsvali.jpg.asset.json";
+import chalaadiImg from "@/assets/chalaadi-glacier.jpg.asset.json";
+import koruldiImg from "@/assets/koruldi-lakes.jpg.asset.json";
 import samegrelo from "@/assets/samegrelo.jpg";
 import kakheti from "@/assets/kakheti.jpg";
 import kazbegi from "@/assets/kazbegi.jpg";
@@ -27,7 +31,7 @@ export interface Region {
 }
 
 export const REGIONS: Region[] = [
-  { id: "svaneti", name: { ka: "სვანეთი", en: "Svaneti" }, image: svaneti, mountain: true,
+  { id: "svaneti", name: { ka: "სვანეთი", en: "Svaneti" }, image: mestiaImg.url, mountain: true,
     blurb: { ka: "მაღალმთიანი სოფლები, სვანური კოშკები და მყინვარები.", en: "High-mountain villages, Svan towers and glaciers." } },
   { id: "samegrelo", name: { ka: "სამეგრელო", en: "Samegrelo" }, image: samegrelo, mountain: false,
     blurb: { ka: "კანიონები, ჭაობიანი ჭალები და დადიანების მემკვიდრეობა.", en: "Canyons, wetlands and the legacy of the Dadiani princes." } },
@@ -53,12 +57,14 @@ export interface Destination {
   hours: number; // approximate visit duration
   hub?: boolean; // good arrival/base point
   seasonal?: boolean; // access depends on season/weather
+  image?: string; // photo of this place; falls back to the region photo
   query: string; // Google Maps search query
 }
 
 export const DESTINATIONS: Destination[] = [
   // Svaneti
   { id: "mestia", region: "svaneti", hub: true, hours: 3, styles: ["history", "nature"], query: "Mestia, Georgia",
+    image: mestiaImg.url,
     name: { ka: "მესტია", en: "Mestia" },
     desc: { ka: "ზემო სვანეთის ცენტრი, ძველი კოშკებითა და მთის ხედებით.", en: "The hub of Upper Svaneti, with old towers and mountain views." },
     activity: { ka: "გაისეირნეთ ძველ უბნებში და ეწვიეთ ისტორიულ-ეთნოგრაფიულ მუზეუმს.", en: "Walk the old quarters and visit the Museum of History and Ethnography." } },
@@ -67,18 +73,22 @@ export const DESTINATIONS: Destination[] = [
     desc: { ka: "შუა საუკუნეების საცხოვრებელი-თავდაცვითი კოშკები — UNESCO-ს მემკვიდრეობის ნაწილი.", en: "Medieval defensive tower-houses, part of a UNESCO-listed heritage." },
     activity: { ka: "დაათვალიერეთ კოშკი და გაიცანით სვანური ყოფა და ტრადიციები.", en: "Climb a tower and learn about Svan family life and traditions." } },
   { id: "hatsvali", region: "svaneti", hours: 3, seasonal: true, styles: ["nature", "adventure"], query: "Hatsvali, Mestia",
+    image: hatsvaliImg.url,
     name: { ka: "ჰაწვალი", en: "Hatsvali" },
     desc: { ka: "მესტიის ზემოთ მდებარე სამთო კურორტი პანორამული ხედებით.", en: "A small mountain resort above Mestia with panoramic views." },
     activity: { ka: "ავიდეთ საბაგიროთი (თუ მუშაობს) და გაისეირნეთ ხედის წერტილებზე.", en: "Ride the lift (if operating) and walk to the viewpoints." } },
   { id: "chalaadi", region: "svaneti", hours: 4, seasonal: true, styles: ["nature", "adventure"], query: "Chalaadi Glacier",
+    image: chalaadiImg.url,
     name: { ka: "ჭალაადის მყინვარი", en: "Chalaadi Glacier" },
     desc: { ka: "ტყიანი ბილიკი მყინვარის ენამდე მესტიის მახლობლად.", en: "A forest trail to a glacier tongue near Mestia." },
     activity: { ka: "ნახევარდღიანი ლაშქრობა; ნუ მიუახლოვდებით ყინულს.", en: "Half-day hike; keep a safe distance from the ice." } },
   { id: "koruldi", region: "svaneti", hours: 6, seasonal: true, styles: ["nature", "adventure"], query: "Koruldi Lakes",
+    image: koruldiImg.url,
     name: { ka: "კორულდის ტბები", en: "Koruldi Lakes" },
     desc: { ka: "მაღალმთიანი ტბები უშბის ხედით.", en: "Alpine lakes with views of Mount Ushba." },
     activity: { ka: "მთლიანი დღის ლაშქრობა ან 4x4 მგზავრობა ზაფხულში.", en: "Full-day hike or 4x4 ride in summer." } },
   { id: "ushguli", region: "svaneti", hours: 6, seasonal: true, styles: ["history", "nature", "adventure"], query: "Ushguli, Georgia",
+    image: ushguliImg.url,
     name: { ka: "უშგული", en: "Ushguli" },
     desc: { ka: "ევროპის ერთ-ერთი უმაღლესი დასახლება შხარას ძირში.", en: "One of Europe's highest settlements, beneath Mount Shkhara." },
     activity: { ka: "დღიური გასვლა მესტიიდან (~2–3 სთ ცალ მხარეს), ხშირად 4x4-ით.", en: "Day trip from Mestia (~2–3 h each way), often by 4x4." } },
