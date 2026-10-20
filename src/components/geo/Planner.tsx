@@ -199,7 +199,7 @@ function Result({ plan, input }: { plan: Plan; input: PlanInput }) {
                 const target = it.type === "travel" ? regionById(it.to).name.en : it.type === "transfer" ? regionById(it.to).name.en : null;
                 return (
                   <li key={i} className="rounded-xl bg-muted px-4 py-3 text-sm">
-                    <span className="font-medium">🚗 {label}</span> <span className="text-muted-foreground">({hrs(it.hours)})</span>
+                    <span className="font-medium">{label}</span> <span className="text-muted-foreground">({hrs(it.hours)})</span>
                     {target && input.start !== "custom" && (
                       <a className="ml-2 font-medium text-primary underline underline-offset-4" href={dirUrl(target)} target="_blank" rel="noreferrer">{t("directions")} ↗</a>
                     )}

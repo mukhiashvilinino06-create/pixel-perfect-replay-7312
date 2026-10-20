@@ -96,7 +96,7 @@ export function generatePlan(input: PlanInput): Plan {
   const capacity = () => regions.reduce((n, r) => n + pools[r].length, 0);
   const neededStops = days * 2;
   for (const n of NEIGHBORS[input.region]) {
-    if (days < 4 || capacity() >= neededStops) break;
+    if (days < 4 || capacity() >= neededStops || regions.length >= 2) break;
     regions.push(n.id);
     pools[n.id] = orderPool(n.id, input.styles);
   }
