@@ -83,7 +83,7 @@ function Index() {
             return (
               <article key={d.id} className="group flex flex-col overflow-hidden rounded-2xl bg-card shadow-card transition hover:-translate-y-1">
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={r.image} alt={`${d.name.en}, ${r.name.en}`} loading="lazy" width={1024} height={768}
+                  <img src={d.image ?? r.image} alt={`${d.name.en}, ${r.name.en}`} loading="lazy" width={1024} height={768}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary">{r.name[lang]}</span>
                   {d.seasonal && <span className="absolute right-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">{t("seasonalBadge")}</span>}
