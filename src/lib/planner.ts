@@ -92,7 +92,7 @@ export function generatePlan(input: PlanInput): Plan {
 
   // Region sequence: add neighbors only for longer trips when the main pool runs out.
   const regions: RegionId[] = [input.region];
-  const pools: Record<string, Destination[]> = { [input.region]: orderPool(input.region, input.styles) };
+  const pools = {} as Record<RegionId, Destination[]>; Object.assign(pools, { [input.region]: orderPool(input.region, input.styles) });
   const capacity = () => regions.reduce((n, r) => n + pools[r].length, 0);
   const neededStops = days * 2;
   for (const n of NEIGHBORS[input.region]) {
@@ -103,7 +103,7 @@ export function generatePlan(input: PlanInput): Plan {
 
   const out: Day[] = [];
   let regionIdx = 0;
-  let current: RegionId = regions[0];
+  let current: RegionId = input.region;
 
   for (let i = 0; i < days; i++) {
     const items: Item[] = [];
@@ -118,7 +118,7 @@ export function generatePlan(input: PlanInput): Plan {
 
     // Move to next region when current pool is empty.
     if (!isFirst && pools[current].length === 0 && regionIdx < regions.length - 1) {
-      const next = regions[regionIdx + 1];
+      const next = regions[regionIdx + 1]!;
       const h = NEIGHBORS[current].find((n) => n.id === next)?.hours ?? 3;
       items.push({ type: "transfer", from: current, to: next, hours: h });
       hoursLeft -= h;
@@ -135,7 +135,7 @@ export function generatePlan(input: PlanInput): Plan {
       const idx = pool.findIndex((d) => d.hours <= Math.max(hoursLeft, added === 0 ? 3 : 0));
       if (idx === -1) break;
       if (added === 0 && hoursLeft < 1.5 && !(isFirst && pool[idx].hub)) break;
-      const [d] = pool.splice(idx, 1);
+      const d = pool.splice(idx, 1)[0]!;
       items.push({ type: "stop", destId: d.id, reasons: d.styles.filter((s) => input.styles.includes(s)) });
       hoursLeft -= d.hours;
       added++;
