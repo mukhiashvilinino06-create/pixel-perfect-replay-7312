@@ -5,6 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { DESTINATIONS, REGIONS, mapsUrl, regionById, type RegionId } from "@/lib/destinations";
 import { Planner, DEFAULT_INPUT } from "@/components/geo/Planner";
 import type { PlanInput } from "@/lib/planner";
+import { Borjgali, OrnamentDivider } from "@/components/geo/Ornament";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,6 +56,7 @@ function Index() {
         <img src={hero} alt="" width={1920} height={1088} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-hero-overlay" />
         <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 text-hero-foreground md:pb-24">
+          <div className="mb-4 flex items-center gap-3 text-accent" aria-hidden="true"><Borjgali className="h-7 w-7" /><span className="ornament-band h-2.5 w-20" /></div>
           <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-6xl">{t("heroTitle")}</h1>
           <p className="mt-4 max-w-xl text-lg opacity-90">{t("heroSub")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -65,6 +67,7 @@ function Index() {
       </section>
 
       <section id="destinations" className="mx-auto max-w-6xl scroll-mt-16 px-5 py-20">
+        <OrnamentDivider className="mb-5" />
         <h2 className="text-3xl font-bold text-primary md:text-4xl">{t("destTitle")}</h2>
         <p className="mt-2 text-muted-foreground">{t("destSub")}</p>
         <div className="mt-6 flex flex-wrap gap-2">
@@ -85,6 +88,7 @@ function Index() {
                   <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary">{r.name[lang]}</span>
                   {d.seasonal && <span className="absolute right-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">{t("seasonalBadge")}</span>}
                 </div>
+                <span className="ornament-band block h-2 w-full text-accent/70" aria-hidden="true" />
                 <div className="flex flex-1 flex-col p-5">
                   <h3 className="text-xl font-bold">{d.name[lang]}</h3>
                   {lang === "ka" && <p className="text-xs text-muted-foreground">{d.name.en}</p>}
@@ -103,7 +107,8 @@ function Index() {
 
       <Planner input={input} setInput={setInput} />
 
-      <footer className="bg-primary py-10 text-primary-foreground">
+      <footer className="bg-primary pb-10 text-primary-foreground">
+        <span className="ornament-band mb-8 block h-3 w-full text-accent" aria-hidden="true" />
         <div className="mx-auto max-w-6xl px-5 text-sm">
           <p className="font-semibold">{t("footer")}</p>
           <p className="mt-1 opacity-75">{t("footerNote")}</p>
