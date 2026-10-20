@@ -5,7 +5,7 @@ const dict = {
   navDestinations: { ka: "მიმართულებები", en: "Destinations" },
   navPlanner: { ka: "დამგეგმავი", en: "Trip planner" },
   heroTitle: { ka: "აღმოაჩინე საქართველო შენებურად.", en: "Discover Georgia, Your Way." },
-  heroSub: { ka: "პერსონალური მარშრუტები სვანეთიდან სამეგრელომდე, 1-დან 7 დღემდე.", en: "Personal itineraries from Svaneti to Samegrelo, from 1 to 7 days." },
+  heroSub: { ka: "აღმოაჩინე საქართველო შენებურად — შენზე მორგებული მოგზაურობები 1-დან 7 დღემდე.", en: "Personalized journeys across Georgia, thoughtfully planned for 1 to 7 days." },
   heroCta: { ka: "დაგეგმე მოგზაურობა", en: "Plan your trip" },
   heroCta2: { ka: "ნახე მიმართულებები", en: "Browse destinations" },
   destTitle: { ka: "მიმართულებები", en: "Destinations" },
