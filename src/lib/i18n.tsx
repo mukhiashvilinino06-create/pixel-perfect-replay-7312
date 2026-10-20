@@ -113,7 +113,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     let s: string = dict[k][lang];
     if (s.includes("|")) {
       const [one, many] = s.split("|");
-      s = Number(vars.n) === 1 ? one : many;
+      s = (Number(vars["n"]) === 1 ? one : many) ?? s;
     }
     return s.replace(/\{(\w+)\}/g, (_, v) => String(vars[v] ?? ""));
   };
