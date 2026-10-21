@@ -11,7 +11,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "GeoExplorer AI — Discover Georgia, Your Way" },
-      { name: "description", content: "Plan 1–7 day trips across Georgia: Svaneti, Samegrelo, Kazbegi, Kakheti and more. Georgian and English." },
+      { name: "description", content: "Plan 1–7 day trips across Georgia: Tbilisi, Svaneti, Samegrelo, Kazbegi, Kakheti and more, with real photos and Google Maps links. Georgian and English." },
       { property: "og:title", content: "GeoExplorer AI — Discover Georgia, Your Way" },
       { property: "og:description", content: "Bilingual trip planner for Svaneti, Samegrelo and all of Georgia." },
       { property: "og:type", content: "website" },
@@ -83,7 +83,8 @@ function Index() {
             return (
               <article key={d.id} className="group flex flex-col overflow-hidden rounded-2xl bg-card shadow-card transition hover:-translate-y-1">
                 <div className="relative aspect-[4/3] overflow-hidden">
-                  <img src={d.image ?? r.image} alt={`${d.name.en}, ${r.name.en}`} loading="lazy" width={1024} height={768}
+                  <img src={d.image ?? r.image} alt={t("photoAlt", { name: d.name[lang], region: r.name[lang] })} loading="lazy" decoding="async" width={1024} height={768}
+                    onError={(e) => { if (e.currentTarget.src !== new URL(r.image, location.href).href) e.currentTarget.src = r.image; }}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                   <span className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-medium text-primary">{r.name[lang]}</span>
                   {d.seasonal && <span className="absolute right-3 top-3 rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground">{t("seasonalBadge")}</span>}
@@ -94,9 +95,13 @@ function Index() {
                   {lang === "ka" && <p className="text-xs text-muted-foreground">{d.name.en}</p>}
                   <p className="mt-2 flex-1 text-sm text-muted-foreground">{d.desc[lang]}</p>
                   <p className="mt-2 text-xs text-muted-foreground">{t("approxVisit", { h: d.hours })}</p>
+                  <details className="mt-2 text-sm">
+                    <summary className="cursor-pointer font-medium text-primary">{t("explore")}</summary>
+                    <p className="mt-1 text-muted-foreground">{d.activity[lang]}</p>
+                  </details>
                   <div className="mt-4 flex flex-wrap gap-2">
                     <button onClick={() => addToTrip(d.region)} className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:opacity-90">{t("addToTrip")}</button>
-                    <a href={mapsUrl(d.query)} target="_blank" rel="noreferrer" className="rounded-full border px-4 py-2 text-sm font-medium transition hover:border-primary">{t("viewMap")} ↗</a>
+                    <a href={mapsUrl(d.query)} target="_blank" rel="noopener noreferrer" aria-label={t("viewMapAria", { name: d.name[lang] })} className="rounded-full border px-4 py-2 text-sm font-medium transition hover:border-primary">{t("viewMap")} ↗</a>
                   </div>
                 </div>
               </article>
@@ -112,6 +117,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-5 text-sm">
           <p className="font-semibold">{t("footer")}</p>
           <p className="mt-1 opacity-75">{t("footerNote")}</p>
+          <p className="mt-1 text-xs opacity-60">{t("photoCredit")}</p>
         </div>
       </footer>
     </div>
