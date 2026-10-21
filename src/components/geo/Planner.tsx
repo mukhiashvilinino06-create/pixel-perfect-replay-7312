@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useI18n, type TKey } from "@/lib/i18n";
-import { REGIONS, destById, mapsUrl, regionById, type RegionId, type Style } from "@/lib/destinations";
+import { REGIONS, destById, mapsUrl, regionById, routeUrl, type RegionId, type Style } from "@/lib/destinations";
 import {
   BUDGET_PER_DAY, generatePlan, validate,
   type Budget, type Plan, type PlanInput, type StartId, type Transport, type ValidationErrors,
@@ -159,12 +159,21 @@ function Result({ plan, input }: { plan: Plan; input: PlanInput }) {
   const rName = (id: RegionId) => regionById(id).name[lang];
   const dirUrl = (to: string) =>
     `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(startName + ", Georgia")}&destination=${encodeURIComponent(to + ", Georgia")}`;
+  const stopQueries = plan.days.flatMap((d) => d.items.flatMap((it) => (it.type === "stop" ? [destById(it.destId).query] : [])));
+  const origin = input.start === "custom" ? (input.customStart.trim() ? `${input.customStart.trim()}, Georgia` : null) : `${t(`s_${input.start}` as TKey)}, Georgia`;
+  const fullRoute = routeUrl(origin, stopQueries);
   const hrs = (h: number | null) => (h === null ? t("hoursUnknown") : t("hoursApprox", { h }));
 
   return (
     <div className="mt-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <h3 className="text-2xl font-bold text-primary md:text-3xl">{t("resultTitle")} · {t("dayN", { n: plan.days.length })}</h3>
       <p className="mt-3 inline-block rounded-full bg-accent/15 px-4 py-1.5 text-sm font-medium text-accent">{t("demoLabel")}</p>
+
+      <p className="mt-4 text-sm">
+        {fullRoute
+          ? <a href={fullRoute} target="_blank" rel="noopener noreferrer" aria-label={t("fullRouteAria")} className="inline-block rounded-full bg-primary px-5 py-2 font-semibold text-primary-foreground transition hover:opacity-90">{t("fullRoute")} ↗</a>
+          : <span className="text-muted-foreground">{t("routeTooLong")}</span>}
+      </p>
 
       <ol className="mt-8 space-y-5">
         {plan.days.map((d) => (
@@ -179,15 +188,21 @@ function Result({ plan, input }: { plan: Plan; input: PlanInput }) {
                   const dest = destById(it.destId);
                   const r = it.reasons.length ? it.reasons.map((s) => t(`st_${s}` as TKey)).join(", ") : t("whyDefault");
                   return (
-                    <li key={i} className="border-l-2 border-accent pl-4">
+                    <li key={i} className="flex gap-4 border-l-2 border-accent pl-4">
+                      <img src={dest.image ?? regionById(dest.region).image} alt={t("photoAlt", { name: dest.name[lang], region: rName(dest.region) })}
+                        loading="lazy" decoding="async" width={96} height={72} className="hidden h-[72px] w-24 shrink-0 rounded-lg object-cover sm:block"
+                        onError={(e) => { e.currentTarget.style.display = "none"; }} />
+                      <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         <span className="font-semibold">{dest.name[lang]}</span>
                         <span className="text-xs text-muted-foreground">{t("approxVisit", { h: dest.hours })}</span>
                         {dest.seasonal && <span className="rounded-full bg-muted px-2 py-0.5 text-xs">{t("seasonalBadge")}</span>}
                       </div>
+                      <p className="mt-1 text-sm text-muted-foreground">{dest.desc[lang]}</p>
                       <p className="mt-1 text-sm">{dest.activity[lang]}</p>
                       <p className="mt-1 text-xs text-muted-foreground">{t("why", { r })}</p>
-                      <a className="mt-1 inline-block text-sm font-medium text-primary underline underline-offset-4" href={mapsUrl(dest.query)} target="_blank" rel="noreferrer">{t("viewMap")} ↗</a>
+                      <a className="mt-1 inline-block text-sm font-medium text-primary underline underline-offset-4" href={mapsUrl(dest.query)} target="_blank" rel="noopener noreferrer" aria-label={t("viewMapAria", { name: dest.name[lang] })}>{t("viewMap")} ↗</a>
+                      </div>
                     </li>
                   );
                 }
