@@ -160,7 +160,7 @@ function Result({ plan, input }: { plan: Plan; input: PlanInput }) {
   const dirUrl = (to: string) =>
     `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(startName + ", Georgia")}&destination=${encodeURIComponent(to + ", Georgia")}`;
   const stopQueries = plan.days.flatMap((d) => d.items.flatMap((it) => (it.type === "stop" ? [destById(it.destId).query] : [])));
-  const origin = input.start === "custom" ? (input.customStart.trim() ? `${input.customStart.trim()}, Georgia` : null) : `${t(`s_${input.start}` as TKey)}, Georgia`;
+  const origin = input.start === "custom" ? ((input.customStart ?? "").trim() ? `${(input.customStart ?? "").trim()}, Georgia` : null) : `${t(`s_${input.start}` as TKey)}, Georgia`;
   const fullRoute = routeUrl(origin, stopQueries);
   const hrs = (h: number | null) => (h === null ? t("hoursUnknown") : t("hoursApprox", { h }));
 
