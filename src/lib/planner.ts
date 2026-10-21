@@ -47,9 +47,9 @@ export interface Plan {
 
 // Approximate one-way road hours from start points to regions.
 const TRAVEL: Record<Exclude<StartId, "custom">, Record<RegionId, number>> = {
-  tbilisi: { svaneti: 9, samegrelo: 5, imereti: 3.5, kazbegi: 3, mtskheta: 0.5, kakheti: 2, adjara: 5.5 },
-  kutaisi: { svaneti: 5, samegrelo: 2, imereti: 0, kazbegi: 6, mtskheta: 3, kakheti: 5, adjara: 2.5 },
-  batumi: { svaneti: 5.5, samegrelo: 2.5, imereti: 2.5, kazbegi: 8, mtskheta: 5, kakheti: 7, adjara: 0 },
+  tbilisi: { svaneti: 9, samegrelo: 5, imereti: 3.5, kazbegi: 3, mtskheta: 0.5, kakheti: 2, adjara: 5.5, tbilisi: 0 },
+  kutaisi: { svaneti: 5, samegrelo: 2, imereti: 0, kazbegi: 6, mtskheta: 3, kakheti: 5, adjara: 2.5, tbilisi: 3.5 },
+  batumi: { svaneti: 5.5, samegrelo: 2.5, imereti: 2.5, kazbegi: 8, mtskheta: 5, kakheti: 7, adjara: 0, tbilisi: 5.5 },
 };
 
 const NEIGHBORS: Record<RegionId, { id: RegionId; hours: number }[]> = {
@@ -57,8 +57,9 @@ const NEIGHBORS: Record<RegionId, { id: RegionId; hours: number }[]> = {
   samegrelo: [{ id: "imereti", hours: 2 }, { id: "svaneti", hours: 3.5 }, { id: "adjara", hours: 2.5 }],
   imereti: [{ id: "samegrelo", hours: 2 }, { id: "adjara", hours: 2.5 }],
   kazbegi: [{ id: "mtskheta", hours: 2.5 }],
-  mtskheta: [{ id: "kazbegi", hours: 2.5 }, { id: "kakheti", hours: 2 }],
-  kakheti: [{ id: "mtskheta", hours: 2 }],
+  mtskheta: [{ id: "kazbegi", hours: 2.5 }, { id: "kakheti", hours: 2 }, { id: "tbilisi", hours: 0.5 }],
+  tbilisi: [{ id: "mtskheta", hours: 0.5 }, { id: "kakheti", hours: 2 }],
+  kakheti: [{ id: "mtskheta", hours: 2 }, { id: "tbilisi", hours: 2 }],
   adjara: [{ id: "imereti", hours: 2.5 }, { id: "samegrelo", hours: 2.5 }],
 };
 
